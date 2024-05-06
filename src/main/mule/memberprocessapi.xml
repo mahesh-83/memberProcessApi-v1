@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+    
+    <flow name="memberprocessapi-main">
+        <http:listener config-ref="memberprocessapi-httpListenerConfig" path="/api/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="memberprocessapi-config" />
+		<error-handler ref="global-error-handlerError_Handler" />
+    </flow>
+    <flow name="patch:\members\(memberID):application\json:memberprocessapi-config">
+		<logger level="INFO" doc:name="Request" doc:id="1569f98a-bec7-4213-9bda-82e756ea17cd" message='Request log for update memberPAPI: #[attributes.headers."X-Cms-TransactionId"]' />
+		<flow-ref doc:name="Flow Reference" doc:id="a109bc91-171e-4d13-8a45-db4e0ca91a77" name="update-member-papiFlow"/>
+		<logger level="INFO" doc:name="Response" doc:id="af3f1620-48a7-4b41-ac2d-d09f13d03eca" message='Response log for update memberPAPI: #[attributes.headers."X-Cms-TransactionId"]' />
+    </flow>
+    <flow name="get:\members:memberprocessapi-config">
+		<logger level="INFO" doc:name="Request" doc:id="ecaa5372-c571-4892-9c85-749b3f5ce2fa" message='Request log for update memberPAPI: #[attributes.headers."X-Cms-TransactionId"]' />
+		<flow-ref doc:name="Flow Reference" doc:id="ec03f9ff-2688-4603-bee8-597972e0dd5d" name="get-member-list-PAPIFlow"/>
+		<logger level="INFO" doc:name="Response" doc:id="37e0049a-1cc7-4c94-903f-3f1a6ff13fc2" message='Response log for update memberPAPI: #[attributes.headers."X-Cms-TransactionId"]' />
+    </flow>
+    <flow name="get:\members\(memberID):memberprocessapi-config">
+		<logger level="INFO" doc:name="Request" doc:id="7d81d63c-048a-4eff-baaf-ae1d8622c3ef" message='Request log for update memberPAPI: #[attributes.headers."X-Cms-TransactionId"]' />
+		<logger level="INFO" doc:name="Response" doc:id="17225215-bd2d-43e4-9dca-ee32e8bdc90c" message='Response log for update memberPAPI: #[attributes.headers."X-Cms-TransactionId"]' />
+    </flow>
+    <flow name="post:\members:application\json:memberprocessapi-config">
+		<logger level="INFO" doc:name="Request" doc:id="c31d2b6c-ab79-4599-920a-57af1c701040" message='Request log for update memberPAPI: #[attributes.headers."X-Cms-TransactionId"]' />
+		<flow-ref doc:name="Flow Reference" doc:id="bd54411f-8ed1-44cf-a70e-37cb3ac78aa2" name="create-member-papiFlow"/>
+		<logger level="INFO" doc:name="Response" doc:id="8a0be200-3e2a-43e9-8c46-bd12402ec3e2" message='Response log for update memberPAPI: #[attributes.headers."X-Cms-TransactionId"]' />
+    </flow>
+</mule>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="update-member-papiFlow" doc:id="77d45dec-55bb-41df-a383-f5fcca9eb0be" >
+		<http:request method="PATCH" doc:name="Request" doc:id="8577f1fb-19eb-44d8-9c02-40bd3f75082d" config-ref="HTTP_Request_configuration" path="/api/members/{memberID}">
+			<http:uri-params ><![CDATA[#[{
+	"memberID": attributes.uriParams.memberID
+}]]]></http:uri-params>
+		</http:request>
+		<ee:transform doc:name="Transform Message" doc:id="81da9dc8-2b62-4b7f-a423-ac55480456bc" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "successful operation",
+  code: 200,
+  data: {
+    memberID: "Mdsah8734873"
+  },
+  success: true
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	
+</mule>

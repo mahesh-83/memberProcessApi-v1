@@ -1,0 +1,13 @@
+%dw 2.0
+
+type auto_9fbde9c1_d5e8_48fa_8e2d_fadb3c1be6c9_Output_Payload = {
+  code: Number, 
+  data: {
+    memberID: String, 
+    _?: Any
+  }, 
+  success: Boolean, 
+  message: String, 
+  _?: Any
+}
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="get-member-list-PAPIFlow" doc:id="3d9057cd-e4ff-4295-b5ea-be44b0ada8ab" >
+		<http:request method="GET" doc:name="Request" doc:id="27e6df8f-3776-440d-bb88-aa80fb20ca89" config-ref="HTTP_Request_configuration" path="/api/members/{memberID}">
+			<http:headers ><![CDATA[#[{
+	"X-Cms-clientId": attributes.headers."X-Cms-clientId",
+	"X-Cms-TransactionId": attributes.headers."X-Cms-TransactionId",
+	"X-Cms-Channel": attributes.headers."X-Cms-Channel",
+	"X-Cms-originLanguage": attributes.headers."X-Cms-originLanguage",
+	"X-Cms-market": attributes.headers."X-Cms-market",
+	"Authorization": attributes.headers."Authorization",
+	"X-Cms-secret": attributes.headers."X-Cms-secret"
+}]]]></http:headers>
+			<http:uri-params ><![CDATA[#[{
+	"memberID": attributes.uriParams.memberID
+}]]]></http:uri-params>
+		</http:request>
+	</flow>
+</mule>
